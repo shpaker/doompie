@@ -11,7 +11,7 @@ class WADHeader(
     files_offset: int
 
 
-class WADFile(
+class WADLump(
     NamedTuple,
 ):
     offset: int

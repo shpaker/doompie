@@ -1,7 +1,8 @@
-from doompie.wad.constants import WADTypes
+from doompie.wad.constants import WADMapLumpTypes, WADTypes
 from doompie.wad.models import WADHeader
 from doompie.wad.utils import (
-    extract_maps_lumps_pos,
+    extract_map_lumps,
+    extract_vertexes,
     wad_read_files,
     wad_read_header,
 )
@@ -29,5 +30,9 @@ def test_extract_maps_lumps_pos_ok(
     doom_wad: bytes,
 ) -> None:
     files = wad_read_files(doom_wad)
-    data = extract_maps_lumps_pos(files)
-    assert data == [6, 17, 28, 39, 50, 61, 72, 83, 94], data
+    data = extract_map_lumps(files)
+    assert data
+    testing = extract_vertexes(
+        doom_wad, data["E1M1"][WADMapLumpTypes.VERTEXES]
+    )
+    print(testing)

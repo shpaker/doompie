@@ -1,9 +1,8 @@
 from enum import Enum
 
-WAD_DATA_HEADER_LENGTH = 12
-WAD_FILE_DATA_LENGTH = 16
-WAD_HEADER_DATA_STRUCT = "4sII"
-WAD_FILE_DATA_STRUCT = "II8s"
+WAD_HEADER_STRUCT = "4sII"
+WAD_LUMP_STRUCT = "II8s"
+WAD_VERTEXES_STRUCT = "hh"
 
 
 class WADTypes(Enum):
@@ -11,7 +10,7 @@ class WADTypes(Enum):
     IWAD = b"IWAD"
 
 
-class WADMapLumps(Enum):
+class WADMapLumpTypes(Enum):
     VERTEXES = "VERTEXES"
     LINEDEFS = "LINEDEFS"
     SIDEDDEFS = "SIDEDDEFS"
