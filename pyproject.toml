@@ -38,7 +38,7 @@ disable = "missing-docstring, no-member, too-few-public-methods, logging-fstring
 [tool.pylint.format]
 max-line-length = "79"
 indent-string = "    "
-good-names = "fh, id, to"
+good-names = "fh, id, i"
 
 [tool.pylint.master]
 ignore = "venv,tests"

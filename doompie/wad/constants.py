@@ -1,0 +1,24 @@
+from enum import Enum
+
+WAD_DATA_HEADER_LENGTH = 12
+WAD_FILE_DATA_LENGTH = 16
+WAD_HEADER_DATA_STRUCT = "4sII"
+WAD_FILE_DATA_STRUCT = "II8s"
+
+
+class WADTypes(Enum):
+    PWAD = b"PWAD"
+    IWAD = b"IWAD"
+
+
+class WADMapLumps(Enum):
+    VERTEXES = "VERTEXES"
+    LINEDEFS = "LINEDEFS"
+    SIDEDDEFS = "SIDEDDEFS"
+    SECTORS = "SECTORS"
+    SSECTORS = "SSECTORS"
+    SEGS = "SEGS"
+    NODES = "NODES"
+    THINGS = "THINGS"
+    REJECT = "REJECT"
+    BLOCKMAP = "BLOCKMAP"
