@@ -3,6 +3,8 @@ from enum import Enum
 WAD_HEADER_STRUCT = "4sII"
 WAD_LUMP_STRUCT = "II8s"
 WAD_VERTEXES_STRUCT = "hh"
+WAD_LINDEFS_STRUCT = 'HHHHHHH'
+WAD_THINGS_STRUCT = 'hhHHH'
 
 
 class WADTypes(Enum):

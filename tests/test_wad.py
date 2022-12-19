@@ -1,10 +1,13 @@
+from doompie import WAD
 from doompie.wad.constants import WADMapLumpTypes, WADTypes
+from doompie.map import Map
 from doompie.wad.models import WADHeader
 from doompie.wad.utils import (
-    extract_map_lumps,
+    filter_maps_lumps,
     extract_vertexes,
-    wad_read_files,
+    wad_read_lumps,
     wad_read_header,
+    extract_lindefs,
 )
 
 
@@ -22,17 +25,29 @@ def test_wad_read_header_ok(
 def test_wad_read_files_ok(
     doom_wad: bytes,
 ) -> None:
-    files = wad_read_files(doom_wad)
+    files = wad_read_lumps(doom_wad)
     assert len(files) == 1270, len(files)
 
 
-def test_extract_maps_lumps_pos_ok(
+def test_extract_maps_lumps(
     doom_wad: bytes,
 ) -> None:
-    files = wad_read_files(doom_wad)
-    data = extract_map_lumps(files)
+    lumps = wad_read_lumps(doom_wad)
+    data = filter_maps_lumps(lumps)
     assert data
-    testing = extract_vertexes(
+    vertexes = extract_vertexes(
         doom_wad, data["E1M1"][WADMapLumpTypes.VERTEXES]
     )
-    print(testing)
+    assert vertexes
+    linedefs = extract_lindefs(
+        doom_wad, data["E1M1"][WADMapLumpTypes.LINEDEFS]
+    )
+    assert linedefs
+
+
+def test_map(
+    doom_wad: bytes,
+) -> None:
+    wad = WAD(doom_wad)
+    map = Map(wad.maps[0], wad=wad)
+    assert wad
