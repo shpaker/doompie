@@ -1,10 +1,7 @@
 from collections import defaultdict
 from struct import calcsize, unpack
 
-from doompie.constants import (
-    WAD_HEADER_STRUCT,
-    WAD_LUMP_STRUCT, MapLumpTypes,
-)
+from doompie.constants import WAD_HEADER_STRUCT, WAD_LUMP_STRUCT, MapLumpTypes
 from doompie.models import WADHeader, WADLump
 
 

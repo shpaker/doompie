@@ -2,11 +2,9 @@ from struct import calcsize, unpack
 
 from pydantic import BaseModel
 
-from doompie.constants import (
-    MapLumpTypes,
-)
-from doompie.wad import WAD
+from doompie.constants import MapLumpTypes
 from doompie.models import WADLindef, WADLump, WADThing, WADVertex
+from doompie.wad import WAD
 
 
 class Map:

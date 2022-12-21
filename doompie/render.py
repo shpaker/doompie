@@ -2,7 +2,7 @@ import pygame
 
 
 def make_lines(
-    map: "WADMap",
+    map: "Map",
 ):
     vertices = tuple((vertex.x, vertex.y) for vertex in map.vertexes)
     edges = tuple(
@@ -13,7 +13,7 @@ def make_lines(
 
 
 def render(
-    map: WADMap,
+    map: "Map",
 ) -> None:
     pygame.init()
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
