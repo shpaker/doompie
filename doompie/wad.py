@@ -1,15 +1,14 @@
 from collections import defaultdict
 from struct import calcsize, unpack
 
-from doompie.wad.constants import (
+from doompie.constants import (
     WAD_HEADER_STRUCT,
-    WAD_LUMP_STRUCT,
-    WADMapLumpTypes,
+    WAD_LUMP_STRUCT, MapLumpTypes,
 )
-from doompie.wad.models import WADHeader, WADLump
+from doompie.models import WADHeader, WADLump
 
 
-class WADData:
+class WAD:
     def __init__(
         self,
         data: bytes,
@@ -39,7 +38,7 @@ class WADData:
         self,
         lump: WADLump,
     ) -> bytes:
-        return self.data[lump.offset: lump.offset + lump.size]
+        return self.data[lump.offset : lump.offset + lump.size]
 
     @property
     def lumps(
@@ -54,7 +53,7 @@ class WADData:
             start_offset = header.files_offset + (i * wad_lump_length)
             unpacked = unpack(
                 WAD_LUMP_STRUCT,
-                self.data[start_offset: start_offset + wad_lump_length],
+                self.data[start_offset : start_offset + wad_lump_length],
             )
             lump_name = unpacked[2].rstrip(b"\x00").decode()
             files.append(
@@ -69,14 +68,14 @@ class WADData:
 
     def _filter_map_lumps_positions(
         self,
-    ) -> dict[str, dict[WADMapLumpTypes, int]]:
+    ) -> dict[str, dict[MapLumpTypes, int]]:
         marker_lump_pos: int | None = None
         map_lumps = defaultdict(dict)
         for pos, lump in enumerate(self.lumps):
             if lump.size == 0:
                 marker_lump_pos = pos
             try:
-                lump_type = WADMapLumpTypes[lump.name]
+                lump_type = MapLumpTypes[lump.name]
             except KeyError:
                 continue
             if marker_lump_pos is None:
@@ -87,6 +86,6 @@ class WADData:
     def get_map_lumps(
         self,
         name: str,
-    ) -> dict[WADMapLumpTypes, WADLump]:
+    ) -> dict[MapLumpTypes, WADLump]:
         lumps_pos = self._map_lumps_positions[name]
         return {name: self.lumps[pos] for name, pos in lumps_pos.items()}

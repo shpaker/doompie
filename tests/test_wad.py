@@ -1,6 +1,5 @@
-from doompie import WADData
-from doompie.wad.map import WADMap
-
+from doompie import WAD
+from doompie.map import Map
 
 # from doompie.wad.utils import (
 #     filter_maps_lumps,
@@ -48,7 +47,7 @@ from doompie.wad.map import WADMap
 def test_map(
     doom_wad: bytes,
 ) -> None:
-    wad = WADData(doom_wad)
-    map = WADMap(wad.map_names[0], wad=wad)
+    wad = WAD(doom_wad)
+    map = Map(wad.map_names[0], wad=wad)
     a = map.linedefs
     assert wad

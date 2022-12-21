@@ -1,15 +1,10 @@
 import pygame
 
-from doompie import WADMap
-
 
 def make_lines(
-    map: 'WADMap',
+    map: "WADMap",
 ):
-    vertices = tuple(
-        (vertex.x, vertex.y)
-        for vertex in map.vertexes
-    )
+    vertices = tuple((vertex.x, vertex.y) for vertex in map.vertexes)
     edges = tuple(
         (linedef.beginning_vertex, linedef.ending_vertex)
         for linedef in map.linedefs
@@ -55,8 +50,11 @@ def render(
             pygame.draw.line(
                 screen,
                 color=(0, 0, 0),
-                start_pos=(x - start_pos.x//3 + 400, y - start_pos.y//3 + 500),
-                end_pos=(x - end_pos.x//3 + 400, y - end_pos.y//3 + 500),
+                start_pos=(
+                    x - start_pos.x // 3 + 400,
+                    y - start_pos.y // 3 + 500,
+                ),
+                end_pos=(x - end_pos.x // 3 + 400, y - end_pos.y // 3 + 500),
                 width=2,
             )
         pygame.display.flip()

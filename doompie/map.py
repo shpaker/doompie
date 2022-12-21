@@ -1,17 +1,20 @@
 from struct import calcsize, unpack
-from typing import Union
 
-from doompie.wad.constants import WADMapLumpTypes, WAPMapLumpStruct, WAPMapLumpModel
-from doompie.wad.models import WADVertex, WADLump, WADLindef, WADThing
-from doompie.wad.data import WADData
+from pydantic import BaseModel
+
+from doompie.constants import (
+    MapLumpTypes,
+)
+from doompie.wad import WAD
+from doompie.models import WADLindef, WADLump, WADThing, WADVertex
 
 
-class WADMap:
+class Map:
     def __init__(
         self,
         name: str,
         *,
-        wad: WADData,
+        wad: WAD,
     ) -> None:
         assert name in wad.map_names
         self.wad = wad
@@ -34,24 +37,24 @@ class WADMap:
 
     def _read_lump_data(
         self,
-        lump_type: WADMapLumpTypes,
-    ) -> tuple[Union[WADVertex, WADLindef, WADThing], ...]:
-        lump = self.lumps[WADMapLumpTypes.LINEDEFS]
+        lump_type: MapLumpTypes,
+    ) -> tuple[BaseModel, ...]:
+        lump = self.lumps[MapLumpTypes.LINEDEFS]
         map_lump_structs = self._unpack_map_lump_structs(
             lump=lump,
-            lump_struct=WAPMapLumpStruct[lump_type.name].value,
+            lump_struct=MapLumpTypes[lump_type.name].pack_format,
         )
-        model = WAPMapLumpModel[lump_type.name].value
+        model = MapLumpTypes[lump_type.name].model
         return tuple(model(*unpacked) for unpacked in map_lump_structs)
 
     @property
     def vertexes(self) -> tuple[WADVertex, ...]:
-        return self._read_lump_data(WADMapLumpTypes.VERTEXES)
+        return self._read_lump_data(MapLumpTypes.VERTEXES)
 
     @property
     def linedefs(self) -> tuple[WADLindef, ...]:
-        return self._read_lump_data(WADMapLumpTypes.LINEDEFS)
+        return self._read_lump_data(MapLumpTypes.LINEDEFS)
 
     @property
     def things(self) -> tuple[WADThing, ...]:
-        return self._read_lump_data(WADMapLumpTypes.THINGS)
+        return self._read_lump_data(MapLumpTypes.THINGS)
