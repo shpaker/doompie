@@ -1,15 +1,21 @@
 from enum import Enum
 
+from doompie.wad.models import WADThing, WADLindef, WADVertex
+
 WAD_HEADER_STRUCT = "4sII"
 WAD_LUMP_STRUCT = "II8s"
-WAD_VERTEXES_STRUCT = "hh"
-WAD_LINDEFS_STRUCT = 'HHHHHHH'
-WAD_THINGS_STRUCT = 'hhHHH'
 
 
-class WADTypes(Enum):
-    PWAD = b"PWAD"
-    IWAD = b"IWAD"
+class WAPMapLumpStruct(Enum):
+    VERTEXES = "hh"
+    LINEDEFS = 'HHHHHHH'
+    THINGS = 'hhHHH'
+
+
+class WAPMapLumpModel(Enum):
+    VERTEXES = WADVertex
+    LINEDEFS = WADLindef
+    THINGS = WADThing
 
 
 class WADMapLumpTypes(Enum):

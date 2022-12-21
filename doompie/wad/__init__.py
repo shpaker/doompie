@@ -1,5 +1,8 @@
-from doompie.wad.wad import WAD
+from doompie.wad.data import WADData
+
+from doompie.wad.map import WADMap
 
 __all__ = (
-    'WAD',
+    'WADData',
+    'WADMap',
 )

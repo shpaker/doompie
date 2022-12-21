@@ -1,6 +1,6 @@
 import click
 
-from doompie import WAD, Map
+from doompie import WADData, WADMap
 from doompie.render import render
 
 
@@ -13,11 +13,11 @@ def main(
 ):
     with open(path_to_wad, 'rb') as fh:
         wad_data = fh.read()
-    wad = WAD(wad_data)
+    wad = WADData(wad_data)
     click.echo(click.style('Allowed maps:'.upper(), fg='green', bold=True))
-    click.echo('- ' + '\n- '.join(wad.maps))
+    click.echo('- ' + '\n- '.join(wad.map_names))
     value: str = click.prompt('Select map', type=str)
-    map = Map(value.upper(), wad=wad)
+    map = WADMap(value.upper(), wad=wad)
     render(map)
 
 

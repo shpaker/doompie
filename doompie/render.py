@@ -1,10 +1,10 @@
 import pygame
 
-from doompie import Map
+from doompie import WADMap
 
 
 def make_lines(
-    map: 'Map',
+    map: 'WADMap',
 ):
     vertices = tuple(
         (vertex.x, vertex.y)
@@ -18,7 +18,7 @@ def make_lines(
 
 
 def render(
-    map: Map,
+    map: WADMap,
 ) -> None:
     pygame.init()
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)

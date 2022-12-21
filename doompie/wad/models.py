@@ -1,11 +1,16 @@
+from enum import Enum
 from typing import NamedTuple
 
-from doompie.wad.constants import WADTypes
+from pydantic.dataclasses import dataclass
 
 
-class WADHeader(
-    NamedTuple,
-):
+class WADTypes(Enum):
+    PWAD = b"PWAD"
+    IWAD = b"IWAD"
+
+
+@dataclass(frozen=True)
+class WADHeader:
     wad_type: WADTypes
     files_count: int
     files_offset: int
@@ -19,16 +24,14 @@ class WADLump(
     name: str
 
 
-class WADVertex(
-    NamedTuple,
-):
+@dataclass(frozen=True)
+class WADVertex:
     x: int
     y: int
 
 
-class WADLindef(
-    NamedTuple,
-):
+@dataclass(frozen=True)
+class WADLindef:
     beginning_vertex: int
     ending_vertex: int
     flags: int
@@ -38,9 +41,8 @@ class WADLindef(
     left_sidedef: int | None
 
 
-class WADThings(
-    NamedTuple,
-):
+@dataclass(frozen=True)
+class WADThing:
     x: int
     y: int
     angle: int

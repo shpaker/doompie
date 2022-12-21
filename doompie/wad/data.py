@@ -5,25 +5,24 @@ from doompie.wad.constants import (
     WAD_HEADER_STRUCT,
     WAD_LUMP_STRUCT,
     WADMapLumpTypes,
-    WADTypes,
 )
 from doompie.wad.models import WADHeader, WADLump
 
 
-class WAD:
+class WADData:
     def __init__(
         self,
         data: bytes,
     ) -> None:
         self.data = data
         self._lumps: tuple[WADLump, ...] | None = None
-        self._levels_lumps_pos = self._filter_maps_lumps_pos()
+        self._map_lumps_positions = self._filter_map_lumps_positions()
 
     @property
-    def maps(
+    def map_names(
         self,
     ) -> tuple[str, ...]:
-        return tuple(self._levels_lumps_pos.keys())
+        return tuple(self._map_lumps_positions.keys())
 
     @property
     def header(
@@ -34,11 +33,13 @@ class WAD:
             WAD_HEADER_STRUCT,
             self.data[:wad_header_length],
         )
-        return WADHeader(
-            wad_type=WADTypes(unpacked[0]),
-            files_count=unpacked[1],
-            files_offset=unpacked[2],
-        )
+        return WADHeader(*unpacked)
+
+    def read_lump(
+        self,
+        lump: WADLump,
+    ) -> bytes:
+        return self.data[lump.offset: lump.offset + lump.size]
 
     @property
     def lumps(
@@ -66,7 +67,7 @@ class WAD:
         self._lumps = tuple(files)
         return self._lumps
 
-    def _filter_maps_lumps_pos(
+    def _filter_map_lumps_positions(
         self,
     ) -> dict[str, dict[WADMapLumpTypes, int]]:
         marker_lump_pos: int | None = None
@@ -87,5 +88,5 @@ class WAD:
         self,
         name: str,
     ) -> dict[WADMapLumpTypes, WADLump]:
-        lumps_pos = self._levels_lumps_pos[name]
+        lumps_pos = self._map_lumps_positions[name]
         return {name: self.lumps[pos] for name, pos in lumps_pos.items()}
